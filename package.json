@@ -1,0 +1,32 @@
+{
+  "name": "ont21",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "babylonjs": "^4.2.0",
+    "babylonjs-materials": "^4.2.0",
+    "parcel-bundler": "^1.12.5",
+    "parcel-plugin-asset-copier": "^1.1.0",
+    "typescript": "^4.4.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm dist/bundle.js",
+    "dev": "parcel src/index.html",
+    "start": "parcel src/index.html",
+    "build-prod": "parcel build src/index.html",
+    "build": "parcel build src/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Adellan/ont21.git"
+  },
+  "author": "Erika Tuunanen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Adellan/ont21/issues"
+  },
+  "homepage": "https://github.com/Adellan/ont21#readme"
+}

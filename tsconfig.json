@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "strict": true,
+        "noImplicitReturns": true,
+        "noImplicitAny": true,
+        "module": "es2020",
+        "moduleResolution": "node",
+        "target": "es5",
+        "allowJs": true,
+        "lib": [
+          "dom", "es6", "es2015"
+        ]
+    },
+    "include": [
+        "./src/**/*"
+    ]
+}
