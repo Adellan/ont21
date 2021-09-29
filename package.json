@@ -28,5 +28,6 @@
   "bugs": {
     "url": "https://github.com/Adellan/ont21/issues"
   },
+  "assetsPath": "src/assets",
   "homepage": "https://github.com/Adellan/ont21#readme"
 }
