@@ -25,6 +25,7 @@ export const bee = (scene) => {
     furMaterial.furSpacing = 0.5;
 
 	body.material = furMaterial;
+    //material rotation is made difficult, this is a workaround
     body.rotation.x = degToRad(50);
     body.rotation.y = degToRad(50);
 	
@@ -139,21 +140,78 @@ export const bee = (scene) => {
     rearleg2.position.z = body.position.z + 1.2;
 
     //wings
-    const wing = BABYLON.Mesh.CreateIcoSphere("icosphere", {radius:1, subdivisions: 16, radiusX: 0.4, radiusY: 1, radiusZ: 0.01});
-    const wingcolor = new BABYLON.Color3(0, 2, 10);
+    const wingbase1 = BABYLON.Mesh.CreateBox("wingbase1", {size: 1}, scene);
+    const wing1 = BABYLON.Mesh.CreateIcoSphere("icosphere", {radius:1, subdivisions: 16, radiusX: 0.4, radiusY: 1, radiusZ: 0.01});
+    const wingcolor = new BABYLON.Color3(0.7, 1, 1);
     const wingMat = new BABYLON.StandardMaterial("wingMat", scene);
     wingMat.alpha = 0.5;
     wingMat.diffuseColor = wingcolor;
-    wing.material = wingMat;
-    const wing2 = wing.clone("wing2");
-    wing.position.y = body.position.y + 1.3;
-    wing.rotation.x = degToRad(45);
-    wing.position.z = body.position.z + 1;
+    wing1.material = wingMat;
+    const wing2 = wing1.clone("wing2");
+    wingbase1.position.x = body.position.x;
+    wingbase1.position.y = body.position.y;
+    wingbase1.position.z = body.position.z;
 
-    wing2.position.y = body.position.y + 1.3;
-    wing2.rotation.x = degToRad(-45);
-    wing2.position.z = body.position.z - 1;
+    const wingbase2 = wingbase1.clone("wingbase2");
+    
+    wing1.position.x = wingbase1.position.x;
+    wing1.position.y = wingbase1.position.y + 1.3;
+    wing1.position.z = wingbase1.position.z -1;
 
+    wing2.position.x = wingbase2.position.x;
+    wing2.position.y = wingbase1.position.y + 1.3;
+    wing2.position.z = wingbase2.position.z + 1;
+
+    //adjust angle to point toward body
+    wing1.rotation.x = degToRad(-45);
+    wing2.rotation.x = degToRad(45);
+    
+    wingbase1.addChild(wing1);
+    wingbase2.addChild(wing2);
+
+    wingbase1.rotation.x = degToRad(-25);
+    wingbase2.rotation.x = degToRad(25);
+
+    //wing animation
+    const frameRate = 10;
+    const flap1 = new BABYLON.Animation("flap1", "rotation.y", frameRate, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+    const flap2 = new BABYLON.Animation("flap2", "rotation.y", frameRate, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+    const keyFrames1 = [];
+    keyFrames1.push({
+        frame: 0,
+        value: -1
+    });
+
+    keyFrames1.push({
+        frame: frameRate,
+        value: -2
+    });
+
+    keyFrames1.push({
+        frame: 2 * frameRate,
+        value: -1
+    });
+    
+    const keyFrames2 = [];
+    keyFrames2.push({
+        frame: 0,
+        value: -1
+    });
+
+    keyFrames2.push({
+        frame: frameRate,
+        value: 0
+    });
+
+    keyFrames2.push({
+        frame: 2 * frameRate,
+        value: -1
+    });
+
+    flap1.setKeys(keyFrames1);
+    flap2.setKeys(keyFrames2);
+    scene.beginDirectAnimation(wingbase1, [flap1], 0, 2 * frameRate, true, 16);
+    scene.beginDirectAnimation(wingbase2, [flap2], 0, 2 * frameRate, true, 16);
 
 
     //weird cloning happens if children are not added last
@@ -165,11 +223,11 @@ export const bee = (scene) => {
     body.addChild(leg4);
     body.addChild(rearleg1);
     body.addChild(rearleg2);
-    body.addChild(wing);
-    body.addChild(wing2);
+    body.addChild(wingbase1);
+    body.addChild(wingbase2);
 
-    scene.registerAfterRender(() => {
+    /*scene.registerAfterRender(() => {
         body.rotate(BABYLON.Axis.Y, Math.PI/256, BABYLON.Space.WORLD);
-    });
+    });*/
 
 }
