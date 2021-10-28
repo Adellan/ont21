@@ -1,5 +1,4 @@
 import * as BABYLON from 'babylonjs';
-import * as materials from 'babylonjs-materials';
 import { degToRad } from './assets/degToRad'
 
 const flower = (color, scene) => {
@@ -25,7 +24,7 @@ const flower = (color, scene) => {
     fcenterMaterial.diffuseColor = fcenterColor;
     fcenter.material = fcenterMaterial;
     fcenter.position.x = stem.position.x;
-    fcenter.position.y = stem.position.y + 1.45;
+    fcenter.position.y = stem.position.y + stemOptions.height/2 - 0.05;
     fcenter.position.z = stem.position.z;
 
     stem.addChild(fcenter);
@@ -43,7 +42,7 @@ const flower = (color, scene) => {
         //petal x is in the middle of ellipsoid
         petal0.position.x = stem.position.x - 0.55;
         //stem y is in the middle of cylinder
-        petal0.position.y = stem.position.y + 1.5;
+        petal0.position.y = stem.position.y + stemOptions.height/2;
         petal0.position.z = stem.position.z - 0.1;
         petal0.rotation.y = degToRad(-10);
         
@@ -90,13 +89,13 @@ const flower = (color, scene) => {
         leaf.position.z = leafBase.position.z;
         leafBase.addChild(leaf);
         
-        leafBase.position.x = stem.position.x - 0.1;
+        leafBase.position.x = stem.position.x - leafOptions.diameterX;
         leafBase.position.y = stem.position.y;
         leafBase.position.z = stem.position.z;
         leafBase.rotation.z = degToRad(40);
 
         const leafBase2 = leafBase.clone("leafBase2");
-        leafBase2.position.x = stem.position.x + 0.1;
+        leafBase2.position.x = stem.position.x + leafOptions.diameterX;
         leafBase2.position.y = stem.position.y - 0.5;
         leafBase2.position.z = stem.position.z;
         leafBase2.rotation.z = degToRad(-50);
@@ -108,6 +107,7 @@ const flower = (color, scene) => {
         return stem;
 }
 
+//TODO: find terrain height, plant flowers accordingly
 export const flowers = (color, scene) => {
     for(let i = 0; i < 20; i++) {
         const planted = new flower(color, scene);

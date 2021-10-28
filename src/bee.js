@@ -227,7 +227,7 @@ export const bee = (scene) => {
     body.addChild(wingbase2);
 
     scene.registerAfterRender(() => {
-        body.rotate(BABYLON.Axis.Y, Math.PI/256, BABYLON.Space.WORLD);
+        //body.rotate(BABYLON.Axis.Y, Math.PI/256, BABYLON.Space.WORLD);
     });
 
 }
