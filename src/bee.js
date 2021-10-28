@@ -7,7 +7,7 @@ export const bee = (scene) => {
     //bee's middle part
     const body = BABYLON.MeshBuilder.CreateSphere("body", {diameter: 1});
     body.position.x = 0;
-    body.position.y = 2;
+    body.position.y = 4;
     
     //const stripes = new BABYLON.StandardMaterial("stripes", scene);
     //stripes.diffuseTexture = new BABYLON.Texture("textures/stripe_ho.png", scene);
@@ -226,8 +226,8 @@ export const bee = (scene) => {
     body.addChild(wingbase1);
     body.addChild(wingbase2);
 
-    /*scene.registerAfterRender(() => {
+    scene.registerAfterRender(() => {
         body.rotate(BABYLON.Axis.Y, Math.PI/256, BABYLON.Space.WORLD);
-    });*/
+    });
 
 }
