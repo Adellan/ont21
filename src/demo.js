@@ -16,18 +16,18 @@ const createScene = () => {
     const scene = new BABYLON.Scene(engine);
 
     //const position = new BABYLON.Vector3(0, 5, -10);
-    const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 15, new BABYLON.Vector3(0, 0, 0));
+    const camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2,  Math.PI / 2, 5, BABYLON.Vector3.Zero(), scene);
     camera.attachControl(canvas, true);
     scene.activeCamera = camera;
-    camera.upperBetaLimit = Math.PI / 2.2;
+    //camera.upperBetaLimit = Math.PI / 2.2;
 
     // Create a basic light, aiming 0, 1, 0 - meaning, to the sky
     const light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(1, 1, 0), scene);
 
     bee(scene);
     sky(scene);
-    terrain(scene);
-    trees(scene);
+    //terrain(scene);
+    //trees(scene);
 
     return scene;
 }
