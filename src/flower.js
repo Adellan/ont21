@@ -1,5 +1,6 @@
 import * as BABYLON from 'babylonjs';
 import { degToRad } from './assets/degToRad'
+import { getHeightAtOctreeGroundCoordinates } from './ground';
 
 const flower = (color, scene) => {
     //base for flower, used as parent and positioning in world
@@ -107,14 +108,16 @@ const flower = (color, scene) => {
         return stem;
 }
 
-//TODO: find terrain height, plant flowers accordingly
-export const flowers = (color, scene) => {
-    for(let i = 0; i < 20; i++) {
-        const planted = new flower(color, scene);
-        planted.position.x = Math.random(1) * (12);
-        planted.position.z = Math.random(1) * 24 - 12;
+export const flowers = (scene, ground) => {
+    const testcolor = new BABYLON.Color3.Red();
+    for(let i = 0; i < 12; i++) {
+        const planted = new flower(testcolor, scene);
+        planted.position.x = Math.random(1) * 12;
+        planted.position.z = Math.random(1) * 12;
         //take into accord stem height and y is in the middle
-        planted.position.y = 1.25;
+        const gy = 1.2 + ground.getHeightAtCoordinates(planted.position.x, planted.position.z);
+        planted.position.y = gy;
+        console.log(gy)
     }
 
 }
