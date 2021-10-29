@@ -1,7 +1,7 @@
 import * as BABYLON from 'babylonjs';
 import { degToRad } from './assets/degToRad'
 
-export const log = (scene, ground) => {
+export const log = (scene, ground, shadowGenerator) => {
 
     const logForm = [
         new BABYLON.Vector3(0, 0, 2),
@@ -28,4 +28,6 @@ export const log = (scene, ground) => {
     log.position.x = -6;
     log.position.z = 18;
     log.position.y = ground.getHeightAtCoordinates(log.position.x, log.position.z) + 3;
+
+    shadowGenerator.addShadowCaster(log);
 }

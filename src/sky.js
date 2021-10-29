@@ -8,11 +8,11 @@ export const sky = (scene) => {
     const skyMaterial = new materials.SkyMaterial("skyMaterial", scene);
     skyMaterial.backFaceCulling = false;
 
-    const skybox = BABYLON.Mesh.CreateBox("skyBox", 1000.0, scene);
+    const skybox = BABYLON.Mesh.CreateBox("skyBox", 1000, scene);
     skybox.material = skyMaterial;
     skyMaterial.turbidity = 2;
     skyMaterial.luminance = 0.9;
     skyMaterial.inclination = 0.6;
-    skyMaterial.azimuth = 0.6;
+    skyMaterial.azimuth = 0.57;
     skyMaterial.cameraOffset.y = scene.activeCamera.globalPosition.y;
 }

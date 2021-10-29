@@ -4,7 +4,7 @@ const getrnd = (maxnum) => {
     return Math.floor(Math.random(1) * maxnum)
 }
 
-const singleTree = (scene, y) => {
+const singleTree = (scene, shadowGenerator) => {
 
     //following the example from https://playground.babylonjs.com/#1LXNS9#4
 
@@ -52,50 +52,48 @@ const singleTree = (scene, y) => {
         green,
         scene
         );
+        
+    shadowGenerator.addShadowCaster(treeFull);
 
     return treeFull;
 }
 
-export const trees = (scene, ground) => {
+export const trees = (scene, ground, shadowGenerator) => {
     //lower left
     for(let i = 0; i < 12; i++) {
-        const planted = new singleTree(scene);
+        const planted = new singleTree(scene, shadowGenerator);
         planted.position.x = (i * 4) + Math.random(1) * 220;
-        planted.position.z = (i * 4) + Math.random(1) * 220;
+        planted.position.z = 20 + (i * 4) + Math.random(1) * 210;
         //lets have the trees a bit deeper
         const gy = ground.getHeightAtCoordinates(planted.position.x, planted.position.z) - 0.5;
         planted.position.y = gy;
-        console.log(gy)
     }
     //upper right
-    for(let i = 0; i < 12; i++) {
-        const planted = new singleTree(scene);
+   for(let i = 0; i < 12; i++) {
+        const planted = new singleTree(scene, shadowGenerator);
         planted.position.x = 2 + (i * 4) - Math.random(1) * 220;
         planted.position.z = 2 + (i * 4) - Math.random(1) * 220;
         //lets have the trees a bit deeper
         const gy = ground.getHeightAtCoordinates(planted.position.x, planted.position.z) - 0.5;
         planted.position.y = gy;
-        console.log(gy)
     }
     //upper left
     for(let i = 0; i < 12; i++) {
-        const planted = new singleTree(scene);
+        const planted = new singleTree(scene, shadowGenerator);
         planted.position.x = 2 + (i * 4) + Math.random(1) * 220;
         planted.position.z = 2 + (i * 4) - Math.random(1) * 220;
         //lets have the trees a bit deeper
         const gy = ground.getHeightAtCoordinates(planted.position.x, planted.position.z) - 0.5;
         planted.position.y = gy;
-        console.log(gy)
     }
     //upper right
     for(let i = 0; i < 12; i++) {
-        const planted = new singleTree(scene);
+        const planted = new singleTree(scene, shadowGenerator);
         planted.position.x = 2 + (i * 4) - Math.random(1) * 220;
         planted.position.z = 2 + (i * 4) + Math.random(1) * 220;
         //lets have the trees a bit deeper
         const gy = ground.getHeightAtCoordinates(planted.position.x, planted.position.z) - 0.5;
         planted.position.y = gy;
-        console.log(gy)
     }
 }
 

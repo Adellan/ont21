@@ -1,7 +1,7 @@
 import * as BABYLON from 'babylonjs';
 import { degToRad } from './assets/degToRad'
 
-const flower = (color, scene) => {
+const flower = (scene) => {
     //base for flower, used as parent and positioning in world
     const stemOptions = {
         height: 5,
@@ -30,6 +30,7 @@ const flower = (color, scene) => {
     stem.addChild(fcenter);
 
     //petals
+    const color = colorList[Math.floor(Math.random(1) * colorList.length)];
     const petalOptions = {
         diameterX: 2,
         diameterY: 0.4,
@@ -107,18 +108,43 @@ const flower = (color, scene) => {
         return stem;
 }
 
+const colorList = [
+    new BABYLON.Color3.Red(),
+    new BABYLON.Color3.Teal(),
+    new BABYLON.Color3.Yellow(),
+    new BABYLON.Color3.Purple(),
+];
+
 //todo: populate the ground
 export const flowers = (scene, ground) => {
-    const testcolor = new BABYLON.Color3.Red();
-    for(let i = 0; i < 8; i++) {
-        const planted = new flower(testcolor, scene);
-        planted.position.x = i + Math.random(1) * 24;
-        planted.position.z = i + Math.random(1) * 24;
+    for(let i = 0; i < 200; i++) {
+        
+        const planted = new flower(scene);
+        planted.position.x = 1 - Math.random(1) * 254;
+        planted.position.z = 36 + Math.random(1) * 210;
         //take into accord stem height and y is in the middle
         const gy = 2.5 + ground.getHeightAtCoordinates(planted.position.x, planted.position.z);
         planted.position.y = gy;
         planted.rotation.y = degToRad(24*i);
-        console.log(gy)
+    }
+    for(let i = 0; i < 200; i++) {
+        const planted = new flower(scene);
+        planted.position.x = -40 - Math.random(1) * 230;
+        planted.position.z = -20 - Math.random(1) * 230;
+        //take into accord stem height and y is in the middle
+        const gy = 2.5 + ground.getHeightAtCoordinates(planted.position.x, planted.position.z);
+        planted.position.y = gy;
+        planted.rotation.y = degToRad(24*i);
+    }
+
+    for(let i = 0; i < 50; i++) {
+        const planted = new flower(scene);
+        planted.position.x = Math.random(1) * 230;
+        planted.position.z = -20 - Math.random(1) * 130;
+        //take into accord stem height and y is in the middle
+        const gy = 2.5 + ground.getHeightAtCoordinates(planted.position.x, planted.position.z);
+        planted.position.y = gy;
+        planted.rotation.y = degToRad(24*i);
     }
 
 }

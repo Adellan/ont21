@@ -21,9 +21,13 @@ const start = () => {
     camera.upperBetaLimit = Math.PI / 2.2;
 
     // Create a basic light, aiming 0, 1, 0 - meaning, to the sky
-    const light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 1, 0), scene);
-
-    terrain(scene);
+    const light1 = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 1, 0), scene);
+    light1.intensity = 0.5;
+    const light = new BABYLON.DirectionalLight("dir01", new BABYLON.Vector3(-2.2, -2, -1), scene);
+    light.position = new BABYLON.Vector3(20, 200, 20);
+    light.intensity = 0.65;
+    const shadowGenerator = new BABYLON.ShadowGenerator(512, light);
+    terrain(scene, shadowGenerator);
     bee(scene);
     sky(scene);
     return scene;

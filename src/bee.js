@@ -4,16 +4,10 @@ import { degToRad } from './assets/degToRad'
 
 export const bee = (scene) => {
 
-    //bee's middle part
+    //bee's middle part, parent to everything else
     const body = BABYLON.MeshBuilder.CreateSphere("body", {diameter: 1});
     body.position.x = 0;
-    body.position.y = 4;
-    
-    //const stripes = new BABYLON.StandardMaterial("stripes", scene);
-    //stripes.diffuseTexture = new BABYLON.Texture("textures/stripe_ho.png", scene);
-    //stripes.diffuseTexture.hasAlpha = true;
-    //body.material = stripes;
-    //rear.material = stripes;
+    body.position.y = 20;
 
     //Fur Material
 	const furMaterial = new materials.FurMaterial("fur", scene);

@@ -4,19 +4,14 @@ import { flowers } from './flower';
 import { trees } from './tree';
 import { log } from './log'
 
-export const terrain = (scene) => {
-    // Procedural materials kept here as backup
-    //import * as procedural from 'babylonjs-procedural-textures';
-    //const grassMaterial = new BABYLON.StandardMaterial("bawl", scene);
-    //const grassTexture = new procedural.GrassProceduralTexture("textbawl", 256, scene);
-    //grassMaterial.ambientTexture = grassTexture;
-    //ground.material = grassMaterial;
+export const terrain = (scene, shadowGenerator) => {
+
     const ground = BABYLON.Mesh.CreateGroundFromHeightMap("ground", "textures/heightmap.png", 
     512,512,60,0,256, scene, false, function() {
         //ground coordinate functions don't work outside of this function?
         flowers(scene, ground)
-        trees(scene, ground)
-        log(scene, ground)
+        trees(scene, ground, shadowGenerator)
+        log(scene, ground, shadowGenerator)
     });
     ground.position.x = 0;
     ground.position.y = -30;
@@ -44,22 +39,10 @@ export const terrain = (scene) => {
     terrainMaterial.diffuseTexture1.uScale = terrainMaterial.diffuseTexture1.vScale = 10;
     terrainMaterial.diffuseTexture2.uScale = terrainMaterial.diffuseTexture2.vScale = 10;
     terrainMaterial.diffuseTexture3.uScale = terrainMaterial.diffuseTexture3.vScale = 10;
-
     ground.material = terrainMaterial;
+    
+    ground.receiveShadows = true;
+
 
     return ground;
 }
-
-/*export const getHeightAtOctreeGroundCoordinates = (scene, x, z) => {
-    let height;
-    let origin = new BABYLON.Vector3(x, 10, z);
-    let down = new BABYLON.Vector3(x, -10, z);
-
-    let ray = new BABYLON.Ray(origin, down);
-    let hit = scene.pickWithRay(ray);
-
-    if (hit.pickedPoint) {
-        height = hit.pickedPoint.y;
-    }
-    return height;
-}*/
