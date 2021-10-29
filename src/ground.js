@@ -1,6 +1,8 @@
 import * as BABYLON from 'babylonjs';
 import * as materials from 'babylonjs-materials';
 import { flowers } from './flower';
+import { trees } from './tree';
+import { log } from './log'
 
 export const terrain = (scene) => {
     // Procedural materials kept here as backup
@@ -8,15 +10,17 @@ export const terrain = (scene) => {
     //const grassMaterial = new BABYLON.StandardMaterial("bawl", scene);
     //const grassTexture = new procedural.GrassProceduralTexture("textbawl", 256, scene);
     //grassMaterial.ambientTexture = grassTexture;
-    //largeGround.material = grassMaterial;
-    const largeGround = BABYLON.Mesh.CreateGroundFromHeightMap("largeGround", "textures/heightmap.png", 
-    512,512,60,0,128, scene, false, function() {
-        //ground coordinate functions don't function outside of this function?
-        flowers(scene, largeGround)
+    //ground.material = grassMaterial;
+    const ground = BABYLON.Mesh.CreateGroundFromHeightMap("ground", "textures/heightmap.png", 
+    512,512,60,0,256, scene, false, function() {
+        //ground coordinate functions don't work outside of this function?
+        flowers(scene, ground)
+        trees(scene, ground)
+        log(scene, ground)
     });
-    largeGround.position.x = 0;
-    largeGround.position.y = -30;
-    largeGround.position.z = 0;
+    ground.position.x = 0;
+    ground.position.y = -30;
+    ground.position.z = 0;
 
     // Create terrain material
 	const terrainMaterial = new materials.TerrainMaterial("terrainMaterial", scene);
@@ -41,9 +45,9 @@ export const terrain = (scene) => {
     terrainMaterial.diffuseTexture2.uScale = terrainMaterial.diffuseTexture2.vScale = 10;
     terrainMaterial.diffuseTexture3.uScale = terrainMaterial.diffuseTexture3.vScale = 10;
 
-    largeGround.material = terrainMaterial;
+    ground.material = terrainMaterial;
 
-    return largeGround;
+    return ground;
 }
 
 /*export const getHeightAtOctreeGroundCoordinates = (scene, x, z) => {
