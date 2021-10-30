@@ -8,7 +8,7 @@ export const sky = (scene) => {
     const skyMaterial = new materials.SkyMaterial("skyMaterial", scene);
     skyMaterial.backFaceCulling = false;
 
-    const skybox = BABYLON.Mesh.CreateBox("skyBox", 1000, scene);
+    const skybox = BABYLON.Mesh.CreateBox("skyBox", 600, scene);
     skybox.material = skyMaterial;
     skyMaterial.turbidity = 2;
     skyMaterial.luminance = 0.9;

@@ -2,7 +2,8 @@ import * as BABYLON from 'babylonjs';
 import { sky } from './sky';
 import { terrain } from './ground';
 import { bee } from './bee';
-import { tunnel, foo } from './tunnel'
+import { tunnel } from './tunnel'
+import { uniCam } from './cameraHandler';
 
 const start = () => {
 
@@ -15,10 +16,13 @@ const start = () => {
         const scene = new BABYLON.Scene(engine);
 
         //TODO: camera handling, better view
-        const camera = new BABYLON.ArcRotateCamera("Camera", Math.PI/2,  Math.PI/2, 50, BABYLON.Vector3.Zero(), scene);
+        //const camera = new BABYLON.ArcRotateCamera("Camera", Math.PI/2,  Math.PI/2, 30, BABYLON.Vector3(0, 50, 0), scene);
+        
+        //scene.activeCamera = camera;
+        //camera.upperBetaLimit = Math.PI / 2.2;
+        const camera = new uniCam(scene);
         camera.attachControl(canvas, true);
         scene.activeCamera = camera;
-        camera.upperBetaLimit = Math.PI / 2.2;
 
         // Create a basic light, aiming 0, 1, 0 - meaning, to the sky
         const light1 = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 1, 0), scene);
@@ -29,15 +33,15 @@ const start = () => {
         light.intensity = 0.65;
         const shadowGenerator = new BABYLON.ShadowGenerator(512, light);
         terrain(scene, shadowGenerator);
-        bee(scene);
-        sky(scene);
-        const music = new BABYLON.Sound("Music", "audio/Tankekart.mp3", scene, function() {
-            music.play();
+        //bee(scene);
+        //sky(scene);
+        /*const music = new BABYLON.Sound("Music", "audio/Tankekart.mp3", scene, function() {
+            //music.play();
         }, {
             loop: false,
             autoplay: false,
             volume: 0.2
-        });
+        });*/
 
         return scene;
 

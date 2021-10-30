@@ -5,9 +5,10 @@ import { degToRad } from './assets/degToRad'
 export const bee = (scene) => {
     //bee's middle part, parent to everything else
     const body = BABYLON.MeshBuilder.CreateSphere("body", {diameter: 1});
-    body.position.x = 0;
-    body.position.y = 20;
-    body.position.z = 0;
+    //start position on top of the log
+    body.position.x = -6;
+    body.position.y = 26;
+    body.position.z = 15;
 
     //Fur Material
 	const furMaterial = new materials.FurMaterial("fur", scene);
@@ -34,6 +35,7 @@ export const bee = (scene) => {
     rear.rotation.y = degToRad(90);
     rear.position.x = body.position.x - 1.3;
     rear.position.y = body.position.y - 0.1;
+    rear.position.z = body.position.z;
 
 
     //bee's head
@@ -43,6 +45,7 @@ export const bee = (scene) => {
     head.material = blackMat;
     head.position.x = body.position.x + 0.9;
     head.position.y = body.position.y - 0.2;
+    head.position.z = body.position.z;
 
 
     //antennas
@@ -219,6 +222,10 @@ export const bee = (scene) => {
     body.addChild(rearleg2);
     body.addChild(wingbase1);
     body.addChild(wingbase2);
+
+    /*scene.registerAfterRender(() => {
+        body.rotate(BABYLON.Axis.Y, Math.PI/96, BABYLON.Space.WORLD);
+    });*/
 
     return body;
 }

@@ -28,6 +28,7 @@ export const log = (scene, ground, shadowGenerator) => {
     log.position.x = -6;
     log.position.z = 18;
     log.position.y = ground.getHeightAtCoordinates(log.position.x, log.position.z) + 3;
+    console.log(log.position.y)
 
     shadowGenerator.addShadowCaster(log);
 }
