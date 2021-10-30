@@ -3,11 +3,11 @@ import * as materials from 'babylonjs-materials';
 import { degToRad } from './assets/degToRad'
 
 export const bee = (scene) => {
-
     //bee's middle part, parent to everything else
     const body = BABYLON.MeshBuilder.CreateSphere("body", {diameter: 1});
     body.position.x = 0;
     body.position.y = 20;
+    body.position.z = 0;
 
     //Fur Material
 	const furMaterial = new materials.FurMaterial("fur", scene);
@@ -220,8 +220,5 @@ export const bee = (scene) => {
     body.addChild(wingbase1);
     body.addChild(wingbase2);
 
-    scene.registerAfterRender(() => {
-        //body.rotate(BABYLON.Axis.Y, Math.PI/256, BABYLON.Space.WORLD);
-    });
-
+    return body;
 }

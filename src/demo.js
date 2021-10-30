@@ -52,17 +52,16 @@ const start = () => {
         //scene.activeCamera = camera;
         tunnel(scene, canvas);
 
-
         return scene;
     }
-    //const defaultScene = createWorld();
-    const tunnelScene = createTunnelScene();
+    const defaultScene = createWorld();
+    //const tunnelScene = createTunnelScene();
     
     // run the render loop
     engine.runRenderLoop(() => {
         dt = engine.getDeltaTime();
-        //scene.render();
-        tunnelScene.render();
+        defaultScene.render();
+        //tunnelScene.render();
     });
     // the canvas/window resize event handler
     window.addEventListener('resize', () =>{

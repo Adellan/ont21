@@ -1,5 +1,7 @@
 import * as BABYLON from 'babylonjs';
 import * as materials from 'babylonjs-materials';
+import { bee } from './bee'; 
+import { degToRad } from './assets/degToRad';
 
 //with examples from https://playground.babylonjs.com/#WW0ALQ#2
 //and https://playground.babylonjs.com/#SGVUBC#10
@@ -27,8 +29,8 @@ for(let i = 4; i < 77; i++) {
  const binormals = path3d.getBinormals();
  const curvePath = path3d.getCurve();
 
-const tube = BABYLON.MeshBuilder.CreateTube("tube", {path: curvePath, radius: 2, sideOrientation: BABYLON.Mesh.DOUBLESIDE, cap: BABYLON.Mesh.CAP_START}, scene);
-
+const tube = BABYLON.MeshBuilder.CreateTube("tube", {path: curvePath, radius: 4, sideOrientation: BABYLON.Mesh.DOUBLESIDE, cap: BABYLON.Mesh.CAP_START}, scene);
+const bees = new bee(scene);
 const tubeMaterial= new materials.GridMaterial("tubeMaterial", scene)
 tubeMaterial.majorUnitFrequency = 8;
 tubeMaterial.gridRatio = 0.3;
@@ -37,23 +39,32 @@ tubeMaterial.mainColor = new BABYLON.Color3(0, 0, 0);
 tubeMaterial.lineColor = new BABYLON.Color3(1, 1, 0);
 tube.material = tubeMaterial;
 
-const camera = new BABYLON.ArcRotateCamera("camera", Math.PI/3,  Math.PI/4, 50, BABYLON.Vector3(), scene);
+const camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0,0,0), scene);
 scene.activeCamera = camera;
 camera.attachControl(canvas, true);
+camera.lockedTarget = new BABYLON.Vector3(1, 0.5, 0);
+//The goal distance of camera from target
+camera.radius = 2;
 
-camera.fov = Math.PI/2;
-camera.minZ = 0.01;
-camera.maxZ = 25;
-camera.updateUpVectorFromRotation = true;
-camera.position.y = -1;
+// The goal rotation of camera around local origin (centre) of target in x y plane
+//camera.rotationOffset = 0;
+
+//camera.fov = Math.PI/2;
+//camera.minZ = 0.01;
+//camera.maxZ = 25;
+//camera.updateUpVectorFromRotation = true;
+//camera.position.y = -1;
 
 // Define the position and orientation animations that will be populated
     // according to the Path3D properties 
     const frameRate = 60;
     const posAnim = new BABYLON.Animation("cameraPos", "position", frameRate, BABYLON.Animation.ANIMATIONTYPE_VECTOR3);
+    const beeposAnim = new BABYLON.Animation("beepos", "position", frameRate, BABYLON.Animation.ANIMATIONTYPE_VECTOR3);
     const posKeys = [];
     const rotAnim = new BABYLON.Animation("cameraRot", "rotationQuaternion", frameRate, BABYLON.Animation.ANIMATIONTYPE_QUATERNION);
     const rotKeys = [];
+    const beeposKeys = [];
+
     for (let i = 0; i < 80; i++) {
         const position = curvePath[i];
         const tangent = tangents[i];
@@ -61,18 +72,29 @@ camera.position.y = -1;
         const rotation = new BABYLON.Quaternion(tangent, binormal);
         posKeys.push({frame: i * frameRate, value: position});
         rotKeys.push({frame: i * frameRate, value: rotation});
+        beeposKeys.push({frame: i * frameRate, value: position});
     }
 
-    posAnim.setKeys(posKeys);
+    //posAnim.setKeys(posKeys);
     rotAnim.setKeys(rotKeys);
+    beeposAnim.setKeys(posKeys);
 
-    camera.animations.push(posAnim);
-    camera.animations.push(rotAnim);
+    //camera.animations.push(posAnim);
+    //camera.animations.push(rotAnim);
+    
+    const onEnd = () => {
+        console.log('noni');
+    }
+    camera.parent = bees;
+    bees.parent = tube;
+    bees.animations.push(beeposAnim);
+    camera.position.y = 1;
+	camera.position.x = -2;
+    camera.position.z = -3;
+    scene.beginDirectAnimation(bees, bees.animations, 60, frameRate*60, false, 3, () => onEnd());
+    scene.registerAfterRender(() => {
+        bees.rotate(BABYLON.Axis.Z, Math.PI/96, BABYLON.Space.WORLD);
+    });
     //animation length at frameRate*60 (less than curve length of 80) cuts animation neatly where view back toward tunnel end
-    scene.beginDirectAnimation(camera, camera.animations, 60, frameRate*60, false, 3);
-
-    //todo
-    //onAnimationEnd: () => void
-    //defines the callback to call when an animation ends (will be called once per node)
-
+    //scene.beginDirectAnimation(camera, camera.animations, 60, frameRate*60, false, 3);
 }
