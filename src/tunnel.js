@@ -39,7 +39,7 @@ for(let i = 4; i < 77; i++) {
  const curvePath = path3d.getCurve();
 
 const tube = BABYLON.MeshBuilder.CreateTube("tube", {path: curvePath, radius: 4, sideOrientation: BABYLON.Mesh.DOUBLESIDE, cap: BABYLON.Mesh.CAP_START}, scene);
-const bees = new bee(scene);
+const beeInTunnel = new bee(scene);
 const tubeMaterial= new materials.GridMaterial("tubeMaterial", scene)
 tubeMaterial.majorUnitFrequency = 8;
 tubeMaterial.gridRatio = 0.3;
@@ -94,15 +94,15 @@ camera.radius = 2;
     const onEnd = () => {
         console.log('noni');
     }
-    camera.parent = bees;
-    bees.parent = tube;
-    bees.animations.push(beeposAnim);
+    camera.parent = beeInTunnel;
+    beeInTunnel.parent = tube;
+    beeInTunnel.animations.push(beeposAnim);
     camera.position.y = 1;
 	camera.position.x = -2;
     camera.position.z = -3;
-    scene.beginDirectAnimation(bees, bees.animations, 60, frameRate*60, false, 3, () => onEnd());
+    scene.beginDirectAnimation(beeInTunnel, beeInTunnel.animations, 60, frameRate*60, false, 3, () => onEnd());
     scene.registerAfterRender(() => {
-        bees.rotate(BABYLON.Axis.Z, Math.PI/96, BABYLON.Space.WORLD);
+        beeInTunnel.rotate(BABYLON.Axis.Z, Math.PI/96, BABYLON.Space.WORLD);
     });
     //animation length at frameRate*60 (less than curve length of 80) cuts animation neatly where view back toward tunnel end
     //scene.beginDirectAnimation(camera, camera.animations, 60, frameRate*60, false, 3);

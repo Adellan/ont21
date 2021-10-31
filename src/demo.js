@@ -1,9 +1,8 @@
 import * as BABYLON from 'babylonjs';
 import { sky } from './sky';
 import { terrain } from './ground';
-import { bee } from './bee';
 import { tunnel } from './tunnel'
-import { uniCam } from './cameraHandler';
+import { beeFlight } from './beeFlight';
 
 const start = () => {
 
@@ -20,9 +19,8 @@ const start = () => {
         
         //scene.activeCamera = camera;
         //camera.upperBetaLimit = Math.PI / 2.2;
-        const camera = new uniCam(scene);
-        camera.attachControl(canvas, true);
-        scene.activeCamera = camera;
+        beeFlight(scene, canvas);
+        
 
         // Create a basic light, aiming 0, 1, 0 - meaning, to the sky
         const light1 = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 1, 0), scene);
@@ -33,8 +31,9 @@ const start = () => {
         light.intensity = 0.65;
         const shadowGenerator = new BABYLON.ShadowGenerator(512, light);
         terrain(scene, shadowGenerator);
+        beeFlight(scene);
         //bee(scene);
-        //sky(scene);
+        sky(scene);
         /*const music = new BABYLON.Sound("Music", "audio/Tankekart.mp3", scene, function() {
             //music.play();
         }, {

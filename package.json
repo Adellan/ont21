@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@babylonjs/core": "^4.2.0",
     "babylonjs": "^4.2.0",
     "babylonjs-materials": "^4.2.0",
     "babylonjs-procedural-textures": "^4.2.0",

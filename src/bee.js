@@ -212,6 +212,9 @@ export const bee = (scene) => {
 
 
     //weird cloning happens if children are not added last
+    
+    body.addChild(wingbase1);
+    body.addChild(wingbase2);
     body.addChild(rear);
     body.addChild(head);
     body.addChild(leg1);
@@ -220,12 +223,12 @@ export const bee = (scene) => {
     body.addChild(leg4);
     body.addChild(rearleg1);
     body.addChild(rearleg2);
-    body.addChild(wingbase1);
-    body.addChild(wingbase2);
+
 
     /*scene.registerAfterRender(() => {
         body.rotate(BABYLON.Axis.Y, Math.PI/96, BABYLON.Space.WORLD);
     });*/
+    body.rotation.y = degToRad(-40);
 
     return body;
 }
