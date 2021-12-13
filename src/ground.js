@@ -9,8 +9,8 @@ export const terrain = (scene, shadowGenerator) => {
     const ground = BABYLON.Mesh.CreateGroundFromHeightMap("ground", "textures/heightmap.png", 
     512,512,60,0,256, scene, false, function() {
         //ground coordinate functions don't work outside of this function?
-        //flowers(scene, ground)
-        //trees(scene, ground, shadowGenerator)
+        flowers(scene, ground)
+        trees(scene, ground, shadowGenerator)
         log(scene, ground, shadowGenerator)
     });
     ground.position.x = 0;

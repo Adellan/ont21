@@ -1,6 +1,5 @@
 import * as BABYLON from 'babylonjs';
 import * as materials from 'babylonjs-materials';
-import { bee } from './bee'; 
 import { addVector } from './assets/addVector';
 
 //with examples from https://playground.babylonjs.com/#WW0ALQ#2
@@ -15,7 +14,7 @@ const makeCurve = (range, nbSteps) => {
     return path;
 };
 
-export const tunnel = (scene, canvas) => {
+export const tunnel = (scene, canvas, bzz) => {
 const curve = makeCurve(60, 80);
 let cpath = BABYLON.Curve3.CreateCubicBezier(
     addVector(curve[0].x, curve[0].y, curve[0].z), 
@@ -39,7 +38,7 @@ for(let i = 4; i < 77; i++) {
  const curvePath = path3d.getCurve();
 
 const tube = BABYLON.MeshBuilder.CreateTube("tube", {path: curvePath, radius: 4, sideOrientation: BABYLON.Mesh.DOUBLESIDE, cap: BABYLON.Mesh.CAP_START}, scene);
-const beeInTunnel = new bee(scene);
+const beeInTunnel = bzz;
 const tubeMaterial= new materials.GridMaterial("tubeMaterial", scene)
 tubeMaterial.majorUnitFrequency = 8;
 tubeMaterial.gridRatio = 0.3;
@@ -90,17 +89,14 @@ camera.radius = 2;
 
     //camera.animations.push(posAnim);
     //camera.animations.push(rotAnim);
-    
-    const onEnd = () => {
-        console.log('noni');
-    }
+
     camera.parent = beeInTunnel;
     beeInTunnel.parent = tube;
     beeInTunnel.animations.push(beeposAnim);
     camera.position.y = 1;
 	camera.position.x = -2;
     camera.position.z = -3;
-    scene.beginDirectAnimation(beeInTunnel, beeInTunnel.animations, 60, frameRate*60, false, 3, () => onEnd());
+    scene.beginDirectAnimation(beeInTunnel, beeInTunnel.animations, 60, frameRate*60, false, 3);
     scene.registerAfterRender(() => {
         beeInTunnel.rotate(BABYLON.Axis.Z, Math.PI/96, BABYLON.Space.WORLD);
     });

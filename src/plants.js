@@ -1,5 +1,7 @@
 import * as BABYLON from 'babylonjs';
 
+//probably unused file
+
 export const trees = (scene) => {
     const spriteManagerTrees = new BABYLON.SpriteManager("treesManager", "https://www.babylonjs-playground.com/textures/palm.png", 2000, {width: 512, height: 1024}, scene);
     for (let i = 0; i < 20; i++) {

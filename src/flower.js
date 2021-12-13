@@ -1,5 +1,6 @@
 import * as BABYLON from 'babylonjs';
 import { degToRad } from './assets/degToRad'
+import { flowercoordinates } from './assets/coordinates';
 
 const flower = (scene) => {
     //base for flower, used as parent and positioning in world
@@ -109,16 +110,41 @@ const flower = (scene) => {
 }
 
 const colorList = [
-    new BABYLON.Color3.Red(),
-    new BABYLON.Color3.Teal(),
-    new BABYLON.Color3.Yellow(),
-    new BABYLON.Color3.Purple(),
+    //purple
+    new BABYLON.Color3(235/255, 110/255, 220/255),
+    //red
+    new BABYLON.Color3(235/255, 15/255, 80/255),
+    //orange
+    new BABYLON.Color3(1, 150/255, 25/255),
+    //violet
+    new BABYLON.Color3(80/255, 30/255, 60/255),
+    //yellow
+    new BABYLON.Color3(245/255, 190/255, 35/255),
+    new BABYLON.Color3.White()
+
 ];
 
-//todo: populate the ground
 export const flowers = (scene, ground) => {
+    const coord = flowercoordinates();
+    //console.log('coordinates ', coord[0][0]);
+    let fx;
+    let fz;
+
+    //lesser amount for testing
+    for(let i = 0; i < coord.length; i++) {
+        fx = coord[i][0];
+        fz = coord[i][1];
+        const planted = new flower(scene);
+        planted.position.x = fx;
+        planted.position.z = fz;
+        //lets have the trees a bit deeper
+        //take into accord stem height and y is in the middle
+        const gy = 2.5 + ground.getHeightAtCoordinates(planted.position.x, planted.position.z);
+        planted.position.y = gy;
+        planted.rotation.y = degToRad(24*i);
+    };
+    /*
     for(let i = 0; i < 200; i++) {
-        
         const planted = new flower(scene);
         planted.position.x = 1 - Math.random(1) * 254;
         planted.position.z = 36 + Math.random(1) * 210;
@@ -127,7 +153,7 @@ export const flowers = (scene, ground) => {
         planted.position.y = gy;
         planted.rotation.y = degToRad(24*i);
     }
-    for(let i = 0; i < 200; i++) {
+    for(let i = 0; i < 240; i++) {
         const planted = new flower(scene);
         planted.position.x = -40 - Math.random(1) * 230;
         planted.position.z = -20 - Math.random(1) * 230;
@@ -146,5 +172,5 @@ export const flowers = (scene, ground) => {
         planted.position.y = gy;
         planted.rotation.y = degToRad(24*i);
     }
-
-}
+    */
+};

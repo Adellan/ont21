@@ -1,24 +1,23 @@
 import * as BABYLON from 'babylonjs';
-import * as core from '@babylonjs/core';
 import { addVector } from './assets/addVector';
 import { bee } from './bee';
 import { degToRad } from './assets/degToRad';
 
-export const beeFlight = (scene, canvas) => {
-
-
-    const beeOut = new bee(scene);
+export const beeFlight = (scene, canvas, bzz) => {
+    const beeOut = bzz;
+    beeOut.position = addVector(-5,26,10)
     const cam =  new BABYLON.UniversalCamera("unicam", new BABYLON.Vector3(0,10,0), scene);
     cam.upperBetaLimit = Math.PI / 2.2;
     cam.attachControl(canvas, true);
-    
+    console.log(beeOut)
     scene.activeCamera = cam;
     cam.fov = Math.PI/2;
     cam.minZ = 3;
     cam.maxZ = 600;
-    cam.updateUpVectorFromRotation = true;
+    //cam.updateUpVectorFromRotation = true;
     //The goal distance of camera from target
     cam.radius = 8;
+    //cam.position = addVector(beeOut.position.x + 10, beeOut.position.y + 10, beeOut.position.z - 5);
     
     //start, control1, control2, end, points on curve
     //x, y, z -> here -x = right and -z = toward cam/"down"
@@ -67,7 +66,7 @@ export const beeFlight = (scene, canvas) => {
         const binormal = binormals[i]
         rotKeys.push({frame: i * frameRate, value: i * binormal.y});
         posKeys.push({frame: i * frameRate, value: position});
-        const counted = addVector(position.x + 10, position.y + 10, position.z - 5);
+        const counted = addVector(position.x + 10, position.y + 20, position.z - 5);
         moveKeys.push({frame: i * frameRate, value: counted});
     }
 
@@ -77,16 +76,25 @@ export const beeFlight = (scene, canvas) => {
     beeOut.animations.push(posAnim);
     beeOut.animations.push(rotAnim);
     cam.animations.push(moveAnim);
+
     const remo = () => {
     cam.rotation.x = degToRad(30)
     cam.rotation.y = degToRad(-30)
     cam.position.z = -15;
     cam.position.x = 30;
     cam.position.y = 45;
+    beeOut.position = addVector(-5,50,10);
+    beeOut.rotation.x = degToRad(50)
     }
     
-    scene.beginDirectAnimation(beeOut, beeOut.animations, 0, frameRate*curvePath.length-2, false, 2, remo());
-    scene.beginDirectAnimation(cam, cam.animations, 0, frameRate*curvePath.length-4, false, 2);
+
+    setTimeout(function() {
+        scene.beginDirectAnimation(beeOut, beeOut.animations, 0, frameRate*curvePath.length-2, false, 1);
+        scene.beginDirectAnimation(cam, cam.animations, 0, frameRate*curvePath.length-4, false, 1, function(){
+            console.log('end flight');
+            remo();
+        });
+    }, 10000);
 
     return cam;
 

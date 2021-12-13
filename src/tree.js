@@ -1,4 +1,5 @@
 import * as BABYLON from 'babylonjs';
+import { coordinatelist } from './assets/coordinates';
 
 const getrnd = (maxnum) => {
     return Math.floor(Math.random(1) * maxnum)
@@ -59,6 +60,22 @@ const singleTree = (scene, shadowGenerator) => {
 }
 
 export const trees = (scene, ground, shadowGenerator) => {
+    const coord = coordinatelist();
+    //console.log('coordinates ', coord[0][0]);
+    let tx;
+    let tz;
+
+    for(let i = 0; i < 100; i++) {
+        tx = coord[i][0];
+        tz = coord[i][1];
+        const planted = new singleTree(scene, shadowGenerator);
+        planted.position.x = tx;
+        planted.position.z = tz;
+        //lets have the trees a bit deeper
+        const gy = ground.getHeightAtCoordinates(planted.position.x, planted.position.z) - 0.5;
+        planted.position.y = gy;
+    }
+    /*
     //lower left
     for(let i = 0; i < 12; i++) {
         const planted = new singleTree(scene, shadowGenerator);
@@ -69,7 +86,7 @@ export const trees = (scene, ground, shadowGenerator) => {
         planted.position.y = gy;
     }
     //upper right
-   for(let i = 0; i < 12; i++) {
+   for(let i = 0; i < 17; i++) {
         const planted = new singleTree(scene, shadowGenerator);
         planted.position.x = 2 + (i * 4) - Math.random(1) * 220;
         planted.position.z = 2 + (i * 4) - Math.random(1) * 220;
@@ -95,6 +112,7 @@ export const trees = (scene, ground, shadowGenerator) => {
         const gy = ground.getHeightAtCoordinates(planted.position.x, planted.position.z) - 0.5;
         planted.position.y = gy;
     }
+    */
 }
 
 
